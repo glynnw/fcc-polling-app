@@ -1,0 +1,105 @@
+{
+  "{\"filename\":\"/app/server.js\",\"env\":{},\"retainLines\":false,\"highlightCode\":true,\"suppressDeprecationMessages\":false,\"presets\":[],\"plugins\":[],\"ignore\":[],\"code\":true,\"metadata\":true,\"ast\":true,\"comments\":true,\"compact\":\"auto\",\"minified\":false,\"sourceRoot\":\"/app\",\"babelrc\":true,\"sourceType\":\"module\",\"moduleIds\":false,\"passPerPreset\":false,\"parserOpts\":false,\"generatorOpts\":false}:6.26.0": {
+    "metadata": {
+      "usedHelpers": [],
+      "marked": [],
+      "modules": {
+        "imports": [],
+        "exports": {
+          "exported": [],
+          "specifiers": []
+        }
+      }
+    },
+    "options": {
+      "filename": "/app/server.js",
+      "filenameRelative": "/app/server.js",
+      "env": {},
+      "retainLines": false,
+      "highlightCode": true,
+      "suppressDeprecationMessages": false,
+      "presets": [],
+      "plugins": [],
+      "ignore": [],
+      "code": true,
+      "metadata": true,
+      "ast": false,
+      "comments": true,
+      "compact": "auto",
+      "minified": false,
+      "sourceMaps": "both",
+      "sourceMapTarget": "server.js",
+      "sourceFileName": "server.js",
+      "sourceRoot": "/app",
+      "babelrc": false,
+      "sourceType": "module",
+      "moduleRoot": "/app",
+      "moduleIds": false,
+      "passPerPreset": false,
+      "parserOpts": false,
+      "generatorOpts": false,
+      "basename": "server"
+    },
+    "ignored": false,
+    "code": "const express = require('express');\nconst app = express();\nconst jwt = require('express-jwt');\nconst base64url = require('base64url');\nconst crypto = require('crypto');\nconst path = require('path');\n\napp.use(express.static('public'));\n\napp.get(\"/testingjwt\", jwt({ secret: process.env.SECRET }), (req, res) => {\n  if (req.user.testing) return res.sendStatus(200);\n  res.sendStatus(401);\n});\n\napp.get(\"/token\", (req, res) => {\n  res.send({ token: createJWT({ testing: 'test' }), success: true });\n});\n\napp.get(\"*\", (req, res) => {\n  //res.sendFile(__dirname + '/public/index.html')\n  res.sendFile(path.resolve(__dirname, 'public', 'index.html'));\n});\n\nconst listener = app.listen(process.env.PORT, () => {\n  console.log('Your app is listening on port ' + listener.address().port);\n});\n\nfunction createJWT(claims) {\n  const headerEnc = base64url.encode(JSON.stringify({\n    'typ': 'JWT',\n    'alg': 'HS256'\n  }));\n\n  const claimsEnc = base64url.encode(`${JSON.stringify(claims)}`);\n  const signature = base64url.encode(crypto.createHmac('sha256', process.env.SECRET).update(`${headerEnc}.${claimsEnc}`).digest());\n  return `${headerEnc}.${claimsEnc}.${signature}`;\n}\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNlcnZlci5qcyJdLCJuYW1lcyI6WyJleHByZXNzIiwicmVxdWlyZSIsImFwcCIsImp3dCIsImJhc2U2NHVybCIsImNyeXB0byIsInBhdGgiLCJ1c2UiLCJzdGF0aWMiLCJnZXQiLCJzZWNyZXQiLCJwcm9jZXNzIiwiZW52IiwiU0VDUkVUIiwicmVxIiwicmVzIiwidXNlciIsInRlc3RpbmciLCJzZW5kU3RhdHVzIiwic2VuZCIsInRva2VuIiwiY3JlYXRlSldUIiwic3VjY2VzcyIsInNlbmRGaWxlIiwicmVzb2x2ZSIsIl9fZGlybmFtZSIsImxpc3RlbmVyIiwibGlzdGVuIiwiUE9SVCIsImNvbnNvbGUiLCJsb2ciLCJhZGRyZXNzIiwicG9ydCIsImNsYWltcyIsImhlYWRlckVuYyIsImVuY29kZSIsIkpTT04iLCJzdHJpbmdpZnkiLCJjbGFpbXNFbmMiLCJzaWduYXR1cmUiLCJjcmVhdGVIbWFjIiwidXBkYXRlIiwiZGlnZXN0Il0sIm1hcHBpbmdzIjoiQUFBQSxNQUFNQSxVQUFVQyxRQUFRLFNBQVIsQ0FBaEI7QUFDQSxNQUFNQyxNQUFNRixTQUFaO0FBQ0EsTUFBTUcsTUFBTUYsUUFBUSxhQUFSLENBQVo7QUFDQSxNQUFNRyxZQUFZSCxRQUFRLFdBQVIsQ0FBbEI7QUFDQSxNQUFNSSxTQUFTSixRQUFRLFFBQVIsQ0FBZjtBQUNBLE1BQU1LLE9BQU9MLFFBQVEsTUFBUixDQUFiOztBQUVBQyxJQUFJSyxHQUFKLENBQVFQLFFBQVFRLE1BQVIsQ0FBZSxRQUFmLENBQVI7O0FBRUFOLElBQUlPLEdBQUosQ0FBUSxhQUFSLEVBQXVCTixJQUFJLEVBQUNPLFFBQVFDLFFBQVFDLEdBQVIsQ0FBWUMsTUFBckIsRUFBSixDQUF2QixFQUEwRCxDQUFDQyxHQUFELEVBQU1DLEdBQU4sS0FBYztBQUN0RSxNQUFHRCxJQUFJRSxJQUFKLENBQVNDLE9BQVosRUFBcUIsT0FBT0YsSUFBSUcsVUFBSixDQUFlLEdBQWYsQ0FBUDtBQUNyQkgsTUFBSUcsVUFBSixDQUFlLEdBQWY7QUFDRCxDQUhEOztBQUtBaEIsSUFBSU8sR0FBSixDQUFRLFFBQVIsRUFBa0IsQ0FBQ0ssR0FBRCxFQUFNQyxHQUFOLEtBQWM7QUFDOUJBLE1BQUlJLElBQUosQ0FBUyxFQUFFQyxPQUFPQyxVQUFVLEVBQUVKLFNBQVMsTUFBWCxFQUFWLENBQVQsRUFBMENLLFNBQVMsSUFBbkQsRUFBVDtBQUNELENBRkQ7O0FBSUFwQixJQUFJTyxHQUFKLENBQVEsR0FBUixFQUFhLENBQUNLLEdBQUQsRUFBTUMsR0FBTixLQUFjO0FBQ3pCO0FBQ0FBLE1BQUlRLFFBQUosQ0FBYWpCLEtBQUtrQixPQUFMLENBQWFDLFNBQWIsRUFBd0IsUUFBeEIsRUFBa0MsWUFBbEMsQ0FBYjtBQUNELENBSEQ7O0FBS0EsTUFBTUMsV0FBV3hCLElBQUl5QixNQUFKLENBQVdoQixRQUFRQyxHQUFSLENBQVlnQixJQUF2QixFQUE2QixNQUFNO0FBQ2xEQyxVQUFRQyxHQUFSLENBQVksbUNBQW1DSixTQUFTSyxPQUFULEdBQW1CQyxJQUFsRTtBQUNELENBRmdCLENBQWpCOztBQUlBLFNBQVNYLFNBQVQsQ0FBbUJZLE1BQW5CLEVBQTJCO0FBQ3pCLFFBQU1DLFlBQVk5QixVQUFVK0IsTUFBVixDQUFpQkMsS0FBS0MsU0FBTCxDQUFlO0FBQ2hELFdBQU8sS0FEeUM7QUFFaEQsV0FBTztBQUZ5QyxHQUFmLENBQWpCLENBQWxCOztBQUtBLFFBQU1DLFlBQVlsQyxVQUFVK0IsTUFBVixDQUFrQixHQUFFQyxLQUFLQyxTQUFMLENBQWVKLE1BQWYsQ0FBdUIsRUFBM0MsQ0FBbEI7QUFDQSxRQUFNTSxZQUFZbkMsVUFBVStCLE1BQVYsQ0FBaUI5QixPQUFPbUMsVUFBUCxDQUFrQixRQUFsQixFQUE0QjdCLFFBQVFDLEdBQVIsQ0FBWUMsTUFBeEMsRUFDVjRCLE1BRFUsQ0FDRixHQUFFUCxTQUFVLElBQUdJLFNBQVUsRUFEdkIsRUFFVkksTUFGVSxFQUFqQixDQUFsQjtBQUdBLFNBQVEsR0FBRVIsU0FBVSxJQUFHSSxTQUFVLElBQUdDLFNBQVUsRUFBOUM7QUFDRCIsImZpbGUiOiJzZXJ2ZXIuanMiLCJzb3VyY2VSb290IjoiL2FwcCIsInNvdXJjZXNDb250ZW50IjpbImNvbnN0IGV4cHJlc3MgPSByZXF1aXJlKCdleHByZXNzJylcbmNvbnN0IGFwcCA9IGV4cHJlc3MoKVxuY29uc3Qgand0ID0gcmVxdWlyZSgnZXhwcmVzcy1qd3QnKVxuY29uc3QgYmFzZTY0dXJsID0gcmVxdWlyZSgnYmFzZTY0dXJsJylcbmNvbnN0IGNyeXB0byA9IHJlcXVpcmUoJ2NyeXB0bycpXG5jb25zdCBwYXRoID0gcmVxdWlyZSgncGF0aCcpXG5cbmFwcC51c2UoZXhwcmVzcy5zdGF0aWMoJ3B1YmxpYycpKVxuXG5hcHAuZ2V0KFwiL3Rlc3Rpbmdqd3RcIiwgand0KHtzZWNyZXQ6IHByb2Nlc3MuZW52LlNFQ1JFVH0pLCAocmVxLCByZXMpID0+IHtcbiAgaWYocmVxLnVzZXIudGVzdGluZykgcmV0dXJuIHJlcy5zZW5kU3RhdHVzKDIwMClcbiAgcmVzLnNlbmRTdGF0dXMoNDAxKVxufSlcblxuYXBwLmdldChcIi90b2tlblwiLCAocmVxLCByZXMpID0+IHtcbiAgcmVzLnNlbmQoeyB0b2tlbjogY3JlYXRlSldUKHsgdGVzdGluZzogJ3Rlc3QnIH0pICwgc3VjY2VzczogdHJ1ZSB9KVxufSlcblxuYXBwLmdldChcIipcIiwgKHJlcSwgcmVzKSA9PiB7XG4gIC8vcmVzLnNlbmRGaWxlKF9fZGlybmFtZSArICcvcHVibGljL2luZGV4Lmh0bWwnKVxuICByZXMuc2VuZEZpbGUocGF0aC5yZXNvbHZlKF9fZGlybmFtZSwgJ3B1YmxpYycsICdpbmRleC5odG1sJykpXG59KVxuXG5jb25zdCBsaXN0ZW5lciA9IGFwcC5saXN0ZW4ocHJvY2Vzcy5lbnYuUE9SVCwgKCkgPT4ge1xuICBjb25zb2xlLmxvZygnWW91ciBhcHAgaXMgbGlzdGVuaW5nIG9uIHBvcnQgJyArIGxpc3RlbmVyLmFkZHJlc3MoKS5wb3J0KVxufSlcblxuZnVuY3Rpb24gY3JlYXRlSldUKGNsYWltcykge1xuICBjb25zdCBoZWFkZXJFbmMgPSBiYXNlNjR1cmwuZW5jb2RlKEpTT04uc3RyaW5naWZ5KHtcbiAgICAndHlwJzogJ0pXVCcsXG4gICAgJ2FsZyc6ICdIUzI1NidcbiAgfSkpXG4gIFxuICBjb25zdCBjbGFpbXNFbmMgPSBiYXNlNjR1cmwuZW5jb2RlKGAke0pTT04uc3RyaW5naWZ5KGNsYWltcyl9YClcbiAgY29uc3Qgc2lnbmF0dXJlID0gYmFzZTY0dXJsLmVuY29kZShjcnlwdG8uY3JlYXRlSG1hYygnc2hhMjU2JywgcHJvY2Vzcy5lbnYuU0VDUkVUKVxuICAgICAgICAgICAgICAgICAgICAgICAgICAudXBkYXRlKGAke2hlYWRlckVuY30uJHtjbGFpbXNFbmN9YClcbiAgICAgICAgICAgICAgICAgICAgICAgICAgLmRpZ2VzdCgpKVxuICByZXR1cm4gYCR7aGVhZGVyRW5jfS4ke2NsYWltc0VuY30uJHtzaWduYXR1cmV9YFxufSJdfQ==",
+    "ast": null,
+    "map": {
+      "version": 3,
+      "sources": [
+        "server.js"
+      ],
+      "names": [
+        "express",
+        "require",
+        "app",
+        "jwt",
+        "base64url",
+        "crypto",
+        "path",
+        "use",
+        "static",
+        "get",
+        "secret",
+        "process",
+        "env",
+        "SECRET",
+        "req",
+        "res",
+        "user",
+        "testing",
+        "sendStatus",
+        "send",
+        "token",
+        "createJWT",
+        "success",
+        "sendFile",
+        "resolve",
+        "__dirname",
+        "listener",
+        "listen",
+        "PORT",
+        "console",
+        "log",
+        "address",
+        "port",
+        "claims",
+        "headerEnc",
+        "encode",
+        "JSON",
+        "stringify",
+        "claimsEnc",
+        "signature",
+        "createHmac",
+        "update",
+        "digest"
+      ],
+      "mappings": "AAAA,MAAMA,UAAUC,QAAQ,SAAR,CAAhB;AACA,MAAMC,MAAMF,SAAZ;AACA,MAAMG,MAAMF,QAAQ,aAAR,CAAZ;AACA,MAAMG,YAAYH,QAAQ,WAAR,CAAlB;AACA,MAAMI,SAASJ,QAAQ,QAAR,CAAf;AACA,MAAMK,OAAOL,QAAQ,MAAR,CAAb;;AAEAC,IAAIK,GAAJ,CAAQP,QAAQQ,MAAR,CAAe,QAAf,CAAR;;AAEAN,IAAIO,GAAJ,CAAQ,aAAR,EAAuBN,IAAI,EAACO,QAAQC,QAAQC,GAAR,CAAYC,MAArB,EAAJ,CAAvB,EAA0D,CAACC,GAAD,EAAMC,GAAN,KAAc;AACtE,MAAGD,IAAIE,IAAJ,CAASC,OAAZ,EAAqB,OAAOF,IAAIG,UAAJ,CAAe,GAAf,CAAP;AACrBH,MAAIG,UAAJ,CAAe,GAAf;AACD,CAHD;;AAKAhB,IAAIO,GAAJ,CAAQ,QAAR,EAAkB,CAACK,GAAD,EAAMC,GAAN,KAAc;AAC9BA,MAAII,IAAJ,CAAS,EAAEC,OAAOC,UAAU,EAAEJ,SAAS,MAAX,EAAV,CAAT,EAA0CK,SAAS,IAAnD,EAAT;AACD,CAFD;;AAIApB,IAAIO,GAAJ,CAAQ,GAAR,EAAa,CAACK,GAAD,EAAMC,GAAN,KAAc;AACzB;AACAA,MAAIQ,QAAJ,CAAajB,KAAKkB,OAAL,CAAaC,SAAb,EAAwB,QAAxB,EAAkC,YAAlC,CAAb;AACD,CAHD;;AAKA,MAAMC,WAAWxB,IAAIyB,MAAJ,CAAWhB,QAAQC,GAAR,CAAYgB,IAAvB,EAA6B,MAAM;AAClDC,UAAQC,GAAR,CAAY,mCAAmCJ,SAASK,OAAT,GAAmBC,IAAlE;AACD,CAFgB,CAAjB;;AAIA,SAASX,SAAT,CAAmBY,MAAnB,EAA2B;AACzB,QAAMC,YAAY9B,UAAU+B,MAAV,CAAiBC,KAAKC,SAAL,CAAe;AAChD,WAAO,KADyC;AAEhD,WAAO;AAFyC,GAAf,CAAjB,CAAlB;;AAKA,QAAMC,YAAYlC,UAAU+B,MAAV,CAAkB,GAAEC,KAAKC,SAAL,CAAeJ,MAAf,CAAuB,EAA3C,CAAlB;AACA,QAAMM,YAAYnC,UAAU+B,MAAV,CAAiB9B,OAAOmC,UAAP,CAAkB,QAAlB,EAA4B7B,QAAQC,GAAR,CAAYC,MAAxC,EACV4B,MADU,CACF,GAAEP,SAAU,IAAGI,SAAU,EADvB,EAEVI,MAFU,EAAjB,CAAlB;AAGA,SAAQ,GAAER,SAAU,IAAGI,SAAU,IAAGC,SAAU,EAA9C;AACD",
+      "file": "server.js",
+      "sourceRoot": "/app",
+      "sourcesContent": [
+        "const express = require('express')\nconst app = express()\nconst jwt = require('express-jwt')\nconst base64url = require('base64url')\nconst crypto = require('crypto')\nconst path = require('path')\n\napp.use(express.static('public'))\n\napp.get(\"/testingjwt\", jwt({secret: process.env.SECRET}), (req, res) => {\n  if(req.user.testing) return res.sendStatus(200)\n  res.sendStatus(401)\n})\n\napp.get(\"/token\", (req, res) => {\n  res.send({ token: createJWT({ testing: 'test' }) , success: true })\n})\n\napp.get(\"*\", (req, res) => {\n  //res.sendFile(__dirname + '/public/index.html')\n  res.sendFile(path.resolve(__dirname, 'public', 'index.html'))\n})\n\nconst listener = app.listen(process.env.PORT, () => {\n  console.log('Your app is listening on port ' + listener.address().port)\n})\n\nfunction createJWT(claims) {\n  const headerEnc = base64url.encode(JSON.stringify({\n    'typ': 'JWT',\n    'alg': 'HS256'\n  }))\n  \n  const claimsEnc = base64url.encode(`${JSON.stringify(claims)}`)\n  const signature = base64url.encode(crypto.createHmac('sha256', process.env.SECRET)\n                          .update(`${headerEnc}.${claimsEnc}`)\n                          .digest())\n  return `${headerEnc}.${claimsEnc}.${signature}`\n}"
+      ]
+    },
+    "mtime": 1506977298590
+  }
+}
